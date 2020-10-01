@@ -19,7 +19,9 @@ const seedDB = () => {
   return new Promise(async (resolve, reject) => {
     const db = connectDatabase();
     try {
-      const databaseExists = User.findOne({ email: "example1@example.com" });
+      const databaseExists = User.findOne({
+        email: "thefifthelement@example.com",
+      });
       if (databaseExists) await db.dropDatabase();
 
       await User.insertMany(seeds);
