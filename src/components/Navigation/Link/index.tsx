@@ -12,24 +12,8 @@ const LinkComponent = ({ children, className, href, ...rest }: LinkProps) => (
 
 const Link = styled(LinkComponent)`
   cursor: pointer;
-  color: #fff;
-  font-size: 16px;
-  text-align: center;
-  transition: all 0.2s ease-in-out;
+  transition: all 300ms ease-in-out;
   text-decoration: none;
-  text-transform: uppercase;
-  background-color: #0076ff;
-  border: 1px solid #0076ff;
-  box-shadow: 0 4px 14px 0 rgba(0, 118, 255, 0.39);
-  padding: 0.5rem 2rem;
-  border-radius: 4px;
-  margin: 0;
-  font-weight: 500;
-
-  :hover {
-    background: #fff;
-    color: #0076ff;
-  }
 
   :focus {
     outline: 0;

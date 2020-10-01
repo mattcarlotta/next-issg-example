@@ -1,19 +1,15 @@
 import styled from "@emotion/styled";
-import { BsPencilSquare, BsThreeDots, BsTrash } from "react-icons/bs";
 import Avatar from "~components/Layout/Avatar";
-import Dropdown from "~components/Layout/Dropdown";
 import Flex from "~components/Layout/Flex";
 import FlexEnd from "~components/Layout/FlexEnd";
 import FlexStart from "~components/Layout/FlexStart";
 import FadeIn from "~components/Layout/FadeIn";
-import Menu from "~components/Layout/Menu";
-import MenuButton from "~components/Layout/MenuButton";
-import MenuItem from "~components/Layout/MenuItem";
+import UserActions from "~components/Layout/UserActions";
+import UserDetails from "~components/Layout/UserDetails";
+import UserName from "~components/Layout/UserName";
 import toInitials from "~utils/toInitials";
 import UserAddress from "./UserAddress";
 import UserBackground from "./UserBackground";
-import UserDetails from "./UserDetails";
-import UserName from "./UserName";
 import { CardProps } from "~types";
 
 const Divider = styled.li`
@@ -33,7 +29,6 @@ const CardComponent = ({
   email,
   firstName,
   deleteUser,
-  handleEditClick,
   lastName,
   userName,
 }: CardProps): JSX.Element => (
@@ -45,32 +40,7 @@ const CardComponent = ({
           <UserName>{userName}</UserName>
         </FlexStart>
         <FlexEnd>
-          <Dropdown
-            menu={
-              <Menu>
-                <MenuItem>
-                  <MenuButton
-                    role="button"
-                    data-testid="edit"
-                    onClick={() => handleEditClick(_id)}
-                  >
-                    <BsPencilSquare />
-                  </MenuButton>
-                </MenuItem>
-                <MenuItem>
-                  <MenuButton
-                    role="button"
-                    data-testid="delete"
-                    onClick={() => deleteUser(_id)}
-                  >
-                    <BsTrash />
-                  </MenuButton>
-                </MenuItem>
-              </Menu>
-            }
-          >
-            <BsThreeDots />
-          </Dropdown>
+          <UserActions _id={_id} deleteUser={deleteUser} />
         </FlexEnd>
       </Flex>
       <UserDetails>{email}</UserDetails>

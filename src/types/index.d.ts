@@ -1,5 +1,10 @@
 /* istanbul ignore file */
-import { NextApiRequest, NextApiResponse, NextPage } from "next";
+import {
+  NextApiRequest,
+  NextApiResponse,
+  NextPage,
+  NextPageContext,
+} from "next";
 import { AppProps } from "next/app";
 import {
   ComponentType,
@@ -70,7 +75,6 @@ export interface CardProps {
   key: any;
   className?: string;
   idx: number;
-  handleEditClick: (id: string) => void;
   deleteUser: (id: string) => ReturnType<typeof actions.deleteUser>;
 }
 
@@ -107,18 +111,10 @@ export interface ButtonProps extends ComponentProps {
 export interface DeleteButtonProps extends ActionButtonProps {
   onClick: () => ReturnType<typeof actions.deleteUser>;
 }
+
 export interface DisplayUserListProps {
   data: any[];
-  isEditingID?: string;
-  deleteUser: (id: string) => ReturnType<typeof actions.deleteUser>;
-  handleCloseModal: (event: any) => void;
-  handleEditClick: (id: string) => void;
-  handleResetEditClick: (event: any) => void;
-  resetMessage: () => void;
-  updateUser: ({
-    props: UserData,
-    id: string,
-  }) => ReturnType<typeof actions.updateUser>;
+  // deleteUser: (id: string) => void;
 }
 
 export type DropdownProps = {
@@ -143,6 +139,10 @@ export type DropdownClickHandlerState = {
 export interface EditButtonProps extends ActionButtonProps {
   onClick: (event: any) => void;
 }
+
+export type EventTargetValue = {
+  target: { name: string; value: string };
+};
 
 export type FieldErrorProps = {
   className?: string;
@@ -213,14 +213,12 @@ export interface UserFormProps extends UserData {
 
 export interface UserFormState {
   fields: UserFormFields[];
-  errors: number;
   isSubmitting: boolean;
 }
 
 export type UserListNavigationProps = {
   className?: string;
-  openModal: (event: any) => void;
-  seedDB: (type: string) => ReturnType<typeof actions.seedDB>;
+  seedDB: (event: any) => void;
 };
 
 /// REDUX + SAGAS ///
@@ -271,6 +269,7 @@ export {
   NextApiRequest,
   NextApiResponse,
   NextPage,
+  NextPageContext,
   ReactNode,
   SagaIterator,
 };

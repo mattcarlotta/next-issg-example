@@ -1,43 +1,42 @@
-import styled from "@emotion/styled";
-import { FaCoffee } from "react-icons/fa";
+import { useCallback } from "react";
 import Center from "~components/Layout/Center";
-import Link from "~components/Navigation/Link";
-import SubTitle from "~components/Layout/SubTitle";
+import DisplayUserList from "~components/Layout/DisplayUserList";
+import FadeIn from "~components/Layout/FadeIn";
+import UserListNavigation from "~components/Layout/UserListNavigation";
 import Header from "~components/Navigation/Header";
-import { NextPage } from "~types";
+import { User } from "~models";
+import { NextPage, UserData } from "~types";
 
-const PageContainer = styled.div`
-  max-width: 850px;
-  width: 100%;
-  padding-top: 25vh;
-  margin-left: auto;
-  margin-right: auto;
-  margin-bottom: 20px;
-`;
+const ShowUsers: NextPage<{ users: UserData[] }> = ({ users }) => {
+  const seedDBAction = useCallback(() => {}, []);
 
-const Home: NextPage = () => (
-  <Center data-testid="home-page" style={{ height: "100%", color: "#0076ff" }}>
-    <Header title="Home" url="/" />
-    <PageContainer>
-      <img
-        style={{ marginBottom: "10px", width: "100%" }}
-        src="/images/nextjsKit.png"
-        alt="ssrLogoLight.png"
-      />
-      <SubTitle>Edit files in the root directory and save to reload.</SubTitle>
-      <Link href="/users">
-        <FaCoffee
-          style={{
-            position: "relative",
-            top: 6,
-            fontSize: 23,
-            marginRight: 6,
-          }}
-        />
-        See Example
-      </Link>
-    </PageContainer>
-  </Center>
-);
+  return (
+    <div data-testid="users-page" style={{ padding: "20px 0 40px" }}>
+      <Header title="Users" url="/users" />
+      <Center>
+        <UserListNavigation seedDB={seedDBAction} />
+        <FadeIn timing="0.3s">
+          <DisplayUserList data={users} />
+        </FadeIn>
+      </Center>
+    </div>
+  );
+};
 
-export default Home;
+export const getStaticProps = async (): Promise<{
+  props: { users: UserData[] };
+  revalidate: number;
+}> => {
+  const users = await User.find({})
+    .lean()
+    .then((docs: UserData[]) =>
+      docs.map(({ _id, ...rest }) => ({ _id: _id.toString(), ...rest })),
+    );
+
+  return {
+    props: { users },
+    revalidate: 1,
+  };
+};
+
+export default ShowUsers;
