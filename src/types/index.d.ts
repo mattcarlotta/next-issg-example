@@ -1,11 +1,15 @@
 /* istanbul ignore file */
+import { AxiosResponse } from "axios";
 import {
+  GetStaticProps,
+  GetStaticPaths,
   NextApiRequest,
   NextApiResponse,
   NextPage,
   NextPageContext,
 } from "next";
 import { AppProps } from "next/app";
+
 import {
   ComponentType,
   ChangeEvent,
@@ -21,7 +25,7 @@ import * as actions from "../actions/Users";
 /// ACTIONS ///
 
 export type UserData = {
-  _id: string;
+  _id?: string;
   email?: string;
   firstName?: string;
   lastName?: string;
@@ -33,6 +37,22 @@ export type UserData = {
     suite?: string;
     city?: string;
     zipCode?: string;
+  };
+};
+
+export type UserDetails = {
+  _id: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  userName: string;
+  backgroundInfo: string;
+  address: {
+    street: string;
+    state: string;
+    suite: string;
+    city: string;
+    zipCode: string;
   };
 };
 
@@ -66,15 +86,13 @@ export type BaseFieldProps = {
 
 export interface CardProps {
   _id: string;
-  email?: string;
-  firstName?: string;
-  lastName?: string;
-  userName?: string;
-  backgroundInfo?: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  userName: string;
+  backgroundInfo: string;
   address: any;
-  key: any;
   className?: string;
-  idx: number;
   deleteUser: (id: string) => ReturnType<typeof actions.deleteUser>;
 }
 
@@ -190,8 +208,16 @@ export interface TextAreaProps extends ComponentProps {
 
 export type ToastProps = {
   type: "success" | "info" | "error" | "warning";
-  message: string;
+  message?: string;
 };
+
+export interface UserCardProps {
+  _id: string;
+  idx: number;
+  firstName: string;
+  lastName: string;
+  userName: string;
+}
 
 export interface UserFormFields extends BaseFieldProps {
   disabled?: boolean;
@@ -200,15 +226,7 @@ export interface UserFormFields extends BaseFieldProps {
 
 export interface UserFormProps extends UserData {
   _id?: string;
-  resetMessage: () => void;
-  serverError?: string;
-  serverMessage?: string;
-  resetForm: (event?: any) => void;
-  cancelForm?: (event: any) => void;
-  submitAction: ({
-    props: UserData,
-    id: string,
-  }) => ReturnType<typeof actions.createUser | typeof actions.updateUser>;
+  submitForm: (fields: UserData) => Promise<string | undefined>;
 }
 
 export interface UserFormState {
@@ -218,6 +236,7 @@ export interface UserFormState {
 
 export type UserListNavigationProps = {
   className?: string;
+  dropDB: (event: any) => void;
   seedDB: (event: any) => void;
 };
 
@@ -261,9 +280,12 @@ export type ParseFields<T> = {
 export {
   AnyAction,
   AppProps,
+  AxiosResponse,
   ChangeEvent,
   ComponentType,
   CSSProperties,
+  GetStaticProps,
+  GetStaticPaths,
   FC,
   FormEvent,
   NextApiRequest,

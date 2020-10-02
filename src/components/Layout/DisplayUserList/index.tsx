@@ -1,23 +1,33 @@
+import styled from "@emotion/styled";
 import isEmpty from "lodash.isempty";
 import Flex from "~components/Layout/Flex";
 import NoData from "~components/Layout/NoData";
 import UserCard from "~components/Layout/UserCard";
-import { DisplayUserListProps, FC, UserData } from "~types";
+import { DisplayUserListProps, FC } from "~types";
 
-const DisplayUserList: FC<DisplayUserListProps> = ({ data, ...rest }) => (
-  <Flex
-    data-testid="home-page"
-    justify="center"
-    flexwrap
-    style={{ marginTop: 25 }}
-  >
-    {!isEmpty(data) ? (
-      data.map((props: UserData, idx) => (
-        <UserCard {...props} {...rest} key={props._id} idx={idx} />
-      ))
-    ) : (
-      <NoData />
-    )}
+const UsersContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  padding: 0 10px;
+  width: 100%;
+  max-width: 1000px;
+  flex-wrap: wrap;
+`;
+
+const DisplayUserList: FC<DisplayUserListProps> = ({ data }) => (
+  <Flex data-testid="home-page" justify="center" style={{ marginTop: 25 }}>
+    <UsersContainer>
+      {!isEmpty(data) ? (
+        data.map((props, idx) => (
+          <UserCard {...props} key={props._id} idx={idx} />
+        ))
+      ) : (
+        <NoData />
+      )}
+    </UsersContainer>
   </Flex>
 );
 

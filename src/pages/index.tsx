@@ -1,23 +1,44 @@
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
+import toast from "~components/App/Toast";
 import Center from "~components/Layout/Center";
 import DisplayUserList from "~components/Layout/DisplayUserList";
-import FadeIn from "~components/Layout/FadeIn";
 import UserListNavigation from "~components/Layout/UserListNavigation";
 import Header from "~components/Navigation/Header";
 import { User } from "~models";
+import app from "~utils/axiosConfig";
+import { parseData } from "~utils/parseResponse";
 import { NextPage, UserData } from "~types";
 
 const ShowUsers: NextPage<{ users: UserData[] }> = ({ users }) => {
-  const seedDBAction = useCallback(() => {}, []);
+  const [state, setState] = useState<UserData[]>(users);
+
+  const seedDB = useCallback(async () => {
+    try {
+      const res = await app.post("users/seed");
+      const users = parseData(res, "users");
+
+      setState(users);
+    } catch (err) {
+      toast({ type: "error", message: err.toString() });
+    }
+  }, [app, parseData]);
+
+  const dropDB = useCallback(async () => {
+    try {
+      await app.post("users/drop");
+
+      setState([]);
+    } catch (err) {
+      toast({ type: "error", message: err.toString() });
+    }
+  }, [app, parseData]);
 
   return (
     <div data-testid="users-page" style={{ padding: "20px 0 40px" }}>
       <Header title="Users" url="/users" />
       <Center>
-        <UserListNavigation seedDB={seedDBAction} />
-        <FadeIn timing="0.3s">
-          <DisplayUserList data={users} />
-        </FadeIn>
+        <UserListNavigation dropDB={dropDB} seedDB={seedDB} />
+        <DisplayUserList data={state} />
       </Center>
     </div>
   );

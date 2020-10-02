@@ -1,5 +1,5 @@
 import get from "lodash.get";
-import { NextApiResponse } from "~types";
+import { AxiosResponse } from "~types";
 
 /**
  * Helper function to parse a message from an API response.
@@ -7,7 +7,7 @@ import { NextApiResponse } from "~types";
  * @param {array} res - an API response.
  * @returns {string | undefined} a parsed message string from res.data.message.
  */
-export function parseMessage(res: NextApiResponse): string | undefined {
+export function parseMessage(res: AxiosResponse): string | undefined {
   return get(res, ["data", "message"]);
 }
 
@@ -15,8 +15,8 @@ export function parseMessage(res: NextApiResponse): string | undefined {
  * Helper function to parse data from an API response.
  *
  * @param {array} res - an API response.
- * @returns {Record<string, unknown>} a parsed data object from res.data.
+ * @returns {any} a parsed data object from res.data or undefined.
  */
-export function parseData(res: NextApiResponse): Record<string, unknown> {
-  return get(res, ["data"]);
+export function parseData(res: AxiosResponse, ...opts: string[]): any {
+  return get(res, ["data", ...opts]);
 }

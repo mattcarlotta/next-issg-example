@@ -1,4 +1,4 @@
-import { FaChartArea } from "react-icons/fa";
+import { BsFillPeopleFill } from "react-icons/bs";
 import Container from "~components/Layout/Container";
 import Flex from "~components/Layout/Flex";
 import { CSSProperties, FC } from "~types";
@@ -15,9 +15,9 @@ const NoData: FC = () => (
       justify="center"
       style={{ textAlign: "center", userSelect: "none", height: "100%" }}
     >
-      <FaChartArea style={{ fontSize: 100, color: "#d4d3d3" }} />
+      <BsFillPeopleFill style={{ fontSize: 100, color: "#d4d3d3" }} />
       <h1 style={styles}>No Data Found</h1>
-      <p style={styles}>Add a user or seed the database.</p>
+      <p style={styles}>Create a user or seed the database.</p>
     </Flex>
   </Container>
 );

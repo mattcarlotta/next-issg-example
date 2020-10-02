@@ -1,20 +1,17 @@
 import styled from "@emotion/styled";
 
-const Avatar = styled.div<{ size?: "sm" | "md" | "lg" }>`
-  @media (max-width: 500px) {
-    margin: 0 auto;
-  }
-
+const Avatar = styled.div<{
+  size?: "sm" | "md" | "lg";
+  border?: string;
+  margin?: string;
+}>`
   background: #0076ff;
   color: #fff;
-  font-size: 12px;
-  height: 28px;
-  width: 28px;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-right: 5px;
-  border-radius: 4px;
+  border-radius: ${({ border }) => border || "4px"};
+  margin: ${({ margin }) => margin || "0 5px 0 0"};
 
   ${({ size }) => {
     switch (size) {
