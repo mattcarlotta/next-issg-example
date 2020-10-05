@@ -88,7 +88,7 @@ const UserForm: FC<UserFormProps> = props => {
       <Header title="Create User" url="/users/create" />
       <WindowContainer>
         <PageContainer>
-          <Title>Create User</Title>
+          <Title>{props.title}</Title>
           <Flex>
             <Form data-testid="user-form" onSubmit={handleSubmit}>
               <Flex direction="row" flexwrap justify="space-between">

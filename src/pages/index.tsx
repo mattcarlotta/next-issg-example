@@ -4,13 +4,12 @@ import Center from "~components/Layout/Center";
 import DisplayUserList from "~components/Layout/DisplayUserList";
 import UserListNavigation from "~components/Layout/UserListNavigation";
 import Header from "~components/Navigation/Header";
-import { User } from "~models";
 import app from "~utils/axiosConfig";
 import { parseData } from "~utils/parseResponse";
-import { NextPage, UserData } from "~types";
+import { NextPage, UserDetails } from "~types";
 
-const ShowUsers: NextPage<{ users: UserData[] }> = ({ users }) => {
-  const [state, setState] = useState<UserData[]>(users);
+const ShowUsers: NextPage<{ users: UserDetails[] }> = ({ users }) => {
+  const [state, setState] = useState<UserDetails[]>(users);
 
   const seedDB = useCallback(async () => {
     try {
@@ -45,14 +44,11 @@ const ShowUsers: NextPage<{ users: UserData[] }> = ({ users }) => {
 };
 
 export const getStaticProps = async (): Promise<{
-  props: { users: UserData[] };
+  props: { users: UserDetails[] };
   revalidate: number;
 }> => {
-  const users = await User.find({})
-    .lean()
-    .then((docs: UserData[]) =>
-      docs.map(({ _id, ...rest }) => ({ _id: _id.toString(), ...rest })),
-    );
+  const res = await app.get("users");
+  const users: UserDetails[] = parseData(res, "users");
 
   return {
     props: { users },

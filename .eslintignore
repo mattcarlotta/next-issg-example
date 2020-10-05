@@ -5,6 +5,7 @@ config
 node_modules
 middlewares
 e2e
+api
 **/coverage
 babel.config.js
 next.config.js

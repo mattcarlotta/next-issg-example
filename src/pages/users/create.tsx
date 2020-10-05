@@ -17,7 +17,7 @@ const CreateUserForm: FC = () => {
     [app, parseMessage],
   );
 
-  return <UserForm submitForm={createUser} />;
+  return <UserForm title="Create User Form" submitForm={createUser} />;
 };
 
 export default CreateUserForm;
