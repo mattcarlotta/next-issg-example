@@ -17,9 +17,6 @@ import {
   FormEvent,
   ReactNode,
 } from "react";
-import { AnyAction, Store } from "redux";
-import { SagaIterator } from "redux-saga";
-import * as actions from "../actions/Users";
 
 /// ACTIONS ///
 
@@ -240,27 +237,6 @@ export type UserListNavigationProps = {
   seedDB: (event: any) => void;
 };
 
-/// REDUX + SAGAS ///
-
-export interface SagaStore extends Store {
-  sagaTask: Task;
-}
-
-export type ServerReducerState = {
-  error: string;
-  message: string;
-};
-
-export type UserReducerState = {
-  data: [];
-  isLoading: boolean;
-};
-
-export type ReducerState = {
-  server: ServerReducerState;
-  users: UserReducerState;
-};
-
 /// UTILS ///
 
 export type FieldKeys = "city" | "street" | "state" | "suite" | "zipCode";
@@ -278,7 +254,6 @@ export type ParseFields<T> = {
 };
 
 export {
-  AnyAction,
   AppProps,
   AxiosResponse,
   ChangeEvent,
@@ -295,5 +270,4 @@ export {
   ReactNode,
   Request,
   Response,
-  SagaIterator,
 };
