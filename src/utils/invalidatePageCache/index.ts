@@ -1,7 +1,7 @@
 import axios from "axios";
 import toast from "~components/App/Toast";
 
-const { NODE_ENV } = process.env;
+const { NODE_ENV, LOCALHOST } = process.env;
 const inProduction = NODE_ENV === "production";
 
 /**
@@ -15,7 +15,7 @@ const inProduction = NODE_ENV === "production";
 const invalidatePageCache = async (URL: string): Promise<any> => {
   if (inProduction) {
     try {
-      await axios.get(URL);
+      await axios.get(`${LOCALHOST}${URL}`);
     } catch (err) {
       toast({ type: "error", message: err.toString() });
     }

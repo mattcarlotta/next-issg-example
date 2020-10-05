@@ -9,18 +9,12 @@
   "scripts": {
     "analyze:prod": "rimraf .next/analyze && analyze=true npm run build",
     "analyze:stage": "rimraf .next/analyze && analyze=true npm run build:stage",
-    "build": "npm run build:api && npm run build:app",
+    "build": "inStaging=false next build",
     "build:stage": "NODE_ENV=production inStaging=true next build",
     "dev": "NODE_OPTIONS='--max_old_space_size=4096 --inspect' NODE_ENV=development next dev",
-    "drop:dev": "NODE_ENV=development EXIT=true DROP=true node ./database/teardownDB/index.js",
-    "drop:prod": "NODE_ENV=production EXIT=true DROP=true node ./database/teardownDB/index.js",
-    "drop:stage": "NODE_ENV=staging EXIT=true DROP=true node ./database/teardownDB/index.js",
     "lint": "eslint -c ./.eslintrc --ignore-path ./.eslintignore ./src --ext .ts,.tsx",
     "lint:styles": "stylelint **/*.scss",
-    "seed:dev": "NODE_ENV=development EXIT=true SEED=true node ./database/seedDB/index.js",
-    "seed:prod": "NODE_ENV=production EXIT=true SEED=true node ./database/seedDB/index.js",
-    "seed:stage": "NODE_ENV=staging EXIT=true SEED=true node ./database/seedDB/index.js",
-    "start": "NODE_ENV=production node ./dist/server.js",
+    "start": "NODE_ENV=production next start",
     "staging": "NODE_ENV=production inStaging=true next start",
     "test": "NODE_ENV=test jest --config ./jest.json --passWithNoTests",
     "test:cov": "NODE_ENV=test jest --config ./jest.json --coverage",
@@ -33,7 +27,7 @@
     "test:watchall": "NODE_ENV=test jest --config ./jest.json --watchAll"
   },
   "lint-staged": {
-    "*.{js,jsx}": [
+    "*.{ts,tsx}": [
       "npm run lint",
       "npm run test"
     ],
