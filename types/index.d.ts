@@ -3,13 +3,11 @@ import { AxiosResponse } from "axios";
 import {
   GetStaticProps,
   GetStaticPaths,
-  NextApiRequest,
-  NextApiResponse,
   NextPage,
   NextPageContext,
 } from "next";
 import { AppProps } from "next/app";
-import { Request, Response, NextFunction } from "express";
+import { Express, Request, Response, NextFunction } from "express";
 
 import {
   ComponentType,
@@ -290,8 +288,7 @@ export {
   GetStaticPaths,
   FC,
   FormEvent,
-  NextApiRequest,
-  NextApiResponse,
+  Express,
   NextFunction,
   NextPage,
   NextPageContext,
