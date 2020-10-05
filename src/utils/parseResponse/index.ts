@@ -5,9 +5,9 @@ import { AxiosResponse } from "~types";
  * Helper function to parse a message from an API response.
  *
  * @param {array} res - an API response.
- * @returns {string | undefined} a parsed message string from res.data.message.
+ * @returns string a parsed message string from res.data.message.
  */
-export function parseMessage(res: AxiosResponse): string | undefined {
+export function parseMessage(res: AxiosResponse): string {
   return get(res, ["data", "message"]);
 }
 

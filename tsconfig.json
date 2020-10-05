@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "baseUrl": ".",
+    "baseUrl": "./",
     "allowJs": true,
     "alwaysStrict": true,
     "allowSyntheticDefaultImports": true,
@@ -9,7 +9,7 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "lib": ["dom", "dom.iterable", "esnext"],
-    "module": "commonjs",
+    "module": "esnext",
     "moduleResolution": "node",
     "noEmit": true,
     "noUnusedLocals": true,
@@ -22,18 +22,10 @@
     "paths": {
       "~env": ["env/index"],
       "~logger": ["logger/index"],
-      "~types": ["types/index"],
-      "~controllers/*": ["api/controllers/*"],
-      "~database/*": ["api/database/*"],
-      "~database": ["api/database/index"],
-      "~models": ["api/models/index"],
-      "~middlewares": ["api/middlewares/index"],
       "~components/*": ["src/components/*"],
-      "~models/*": ["api/models/*"],
       "~pages/*": ["src/pages/*"],
-      "~routes/*": ["api/routes/*"],
-      "~routes": ["api/routes/index"],
       "~styles/*": ["src/styles/*"],
+      "~types": ["src/types/index"],
       "~utils/*": ["src/utils/*"]
     }
   },

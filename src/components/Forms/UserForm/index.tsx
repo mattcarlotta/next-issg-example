@@ -66,11 +66,13 @@ const UserForm: FC<UserFormProps> = props => {
 
       if (!errors) {
         try {
-          const message = await props.submitForm(parseFields(state.fields));
+          const { message, link } = await props.submitForm(
+            parseFields(state.fields),
+          );
 
           if (message) toast({ type: "success", message });
 
-          Router.push("/");
+          Router.push(link);
         } catch (err) {
           toast({ type: "error", message: err.toString() });
           setState(prevState => ({

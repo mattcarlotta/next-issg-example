@@ -7,7 +7,6 @@ import {
   NextPageContext,
 } from "next";
 import { AppProps } from "next/app";
-import { Express, Request, Response, NextFunction } from "express";
 
 import {
   ComponentType,
@@ -223,7 +222,7 @@ export interface UserFormFields extends BaseFieldProps {
 export interface UserFormProps extends UserData {
   _id?: string;
   title: string;
-  submitForm: (fields: UserData) => Promise<string | undefined>;
+  submitForm: (fields: UserData) => Promise<{ message: string; link: string }>;
 }
 
 export interface UserFormState {
@@ -263,7 +262,6 @@ export {
   GetStaticPaths,
   FC,
   FormEvent,
-  Express,
   NextFunction,
   NextPage,
   NextPageContext,

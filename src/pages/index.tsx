@@ -6,6 +6,7 @@ import UserListNavigation from "~components/Layout/UserListNavigation";
 import Header from "~components/Navigation/Header";
 import app from "~utils/axiosConfig";
 import { parseData } from "~utils/parseResponse";
+import invalidatePageCache from "~utils/invalidatePageCache";
 import { NextPage, UserDetails } from "~types";
 
 const ShowUsers: NextPage<{ users: UserDetails[] }> = ({ users }) => {
@@ -16,6 +17,8 @@ const ShowUsers: NextPage<{ users: UserDetails[] }> = ({ users }) => {
       const res = await app.post("users/seed");
       const users = parseData(res, "users");
 
+      await invalidatePageCache("/");
+
       setState(users);
     } catch (err) {
       toast({ type: "error", message: err.toString() });
@@ -25,6 +28,8 @@ const ShowUsers: NextPage<{ users: UserDetails[] }> = ({ users }) => {
   const dropDB = useCallback(async () => {
     try {
       await app.post("users/drop");
+
+      await invalidatePageCache("/");
 
       setState([]);
     } catch (err) {

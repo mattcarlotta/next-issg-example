@@ -2,6 +2,7 @@ import { useCallback } from "react";
 import app from "~utils/axiosConfig";
 import UserForm from "~components/Forms/UserForm";
 import { parseMessage } from "~utils/parseResponse";
+import invalidatePageCache from "~utils/invalidatePageCache";
 import { FC, UserData } from "~types";
 
 const CreateUserForm: FC = () => {
@@ -9,7 +10,10 @@ const CreateUserForm: FC = () => {
     async (fields: UserData) => {
       try {
         const res = await app.post("users/create", fields);
-        return parseMessage(res);
+
+        await invalidatePageCache("/");
+
+        return { message: parseMessage(res), link: "/" };
       } catch (error) {
         throw String(error);
       }

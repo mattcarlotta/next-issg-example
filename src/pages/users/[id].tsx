@@ -12,6 +12,7 @@ import LoadingUsers from "~components/Layout/LoadingUsers";
 import Link from "~components/Navigation/Link";
 import app from "~utils/axiosConfig";
 import { parseData, parseMessage } from "~utils/parseResponse";
+import invalidatePageCache from "~utils/invalidatePageCache";
 import { FC, GetStaticPaths, UserDetails } from "~types";
 
 const ViewUser: FC<{ user: UserDetails }> = ({ user }) => {
@@ -20,6 +21,8 @@ const ViewUser: FC<{ user: UserDetails }> = ({ user }) => {
     try {
       const res = await app.delete(`users/delete/${id}`);
       const message = parseMessage(res);
+
+      await invalidatePageCache(`/users/${id}`);
 
       if (message) toast({ type: "success", message });
 

@@ -6,6 +6,7 @@ import UserForm from "~components/Forms/UserForm";
 import LoadingUsers from "~components/Layout/LoadingUsers";
 import app from "~utils/axiosConfig";
 import { parseData, parseMessage } from "~utils/parseResponse";
+import invalidatePageCache from "~utils/invalidatePageCache";
 import { FC, UserData } from "~types";
 
 const EditUserForm: FC = () => {
@@ -18,7 +19,12 @@ const EditUserForm: FC = () => {
     async (fields: UserData) => {
       try {
         const res = await app.put(`users/update/${id}`, { ...fields });
-        return parseMessage(res);
+        const userPage = `/users/${id}`;
+
+        await invalidatePageCache("/");
+        await invalidatePageCache(userPage);
+
+        return { message: parseMessage(res), link: userPage };
       } catch (error) {
         throw String(error);
       }
