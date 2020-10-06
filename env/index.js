@@ -1,4 +1,3 @@
-/* eslint-disable */
 const dotenv = require("dotenv");
 const { statSync } = require("fs");
 const { resolve } = require("path");
@@ -17,4 +16,3 @@ try {
   logErrorMessage(`Missing ${NODE_ENV} environment variables!`);
   process.exit(1);
 }
-/* eslint-enable */
