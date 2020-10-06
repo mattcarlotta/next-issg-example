@@ -1,23 +1,21 @@
-require("../../env");
-require("../../models/all");
-const { connectDatabase } = require("../index");
-const { User } = require("../../models");
-const seeds = require("./seeds");
-const { logErrorMessage, logInfoMessage } = require("../../logger");
+import "~env";
+import { createConnectionToDatabase } from "~database";
+import User from "~models/user";
+import { logErrorMessage, logInfoMessage } from "~logger";
+import seeds from "./seeds";
 
 const { DATABASE, EXIT, SEED } = process.env;
 
 /**
  * Function to seed the testing Mongo database.
  *
- * @async
- * @function seedDB
+ * @function
  * @returns {string} - displays a:  PASS  utils/seedDB.js message to console.
  * @throws {error} - displays a:  FAIL  utils/seedDB.js message to console with the error.
  */
 const seedDB = () => {
   return new Promise(async (resolve, reject) => {
-    const db = await connectDatabase();
+    const db = await createConnectionToDatabase();
     try {
       const databaseExists = User.findOne({
         email: "thefifthelement@example.com",
