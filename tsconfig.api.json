@@ -5,7 +5,7 @@
     "checkJs": false,
     "noEmit": false,
     "module": "commonjs",
-    "outDir": "dist",
+    "outDir": "build",
     "target": "es5",
     "paths": {
       "~env": ["../env/index"],

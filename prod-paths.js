@@ -1,7 +1,7 @@
-const tsConfigPaths = require("tsconfig-paths");
+const tsconfigpaths = require("tsconfig-paths");
 
-tsConfigPaths.register({
-  baseUrl: "./dist",
+tsconfigpaths.register({
+  baseUrl: "./build",
   paths: {
     "~env": ["env/index"],
     "~logger": ["logger/index"],

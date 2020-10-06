@@ -2,6 +2,8 @@ import { Request, Response } from "express";
 import User from "~models/user";
 
 const getUsers = async (_: Request, res: Response): Promise<any> => {
+  console.log("hit getUsers route");
+
   const users = await User.find({});
 
   res.status(200).send({ users });

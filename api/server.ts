@@ -19,7 +19,7 @@ const { CLIENT, APIPORT } = process.env;
 
     server.listen(APIPORT, (err?: Error) => {
       if (err) throw err;
-      logInfoMessage(`Listening for requests from: \x1b[1m${CLIENT}\x1b[0m`);
+      logInfoMessage(`Listening for requests from: \x1b[1m${CLIENT}\x1b[0m\n`);
     });
   } catch (err) {
     logErrorMessage(err.toString());
