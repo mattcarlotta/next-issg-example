@@ -70,7 +70,7 @@ const UserForm: FC<UserFormProps> = props => {
             parseFields(state.fields),
           );
 
-          if (message) toast({ type: "success", message });
+          toast({ type: "success", message });
 
           Router.push(link);
         } catch (err) {
@@ -90,7 +90,7 @@ const UserForm: FC<UserFormProps> = props => {
       <Header title="Create User" url="/users/create" />
       <WindowContainer>
         <PageContainer>
-          <Title>{props.title}</Title>
+          <Title data-testid="form-title">{props.title}</Title>
           <Flex>
             <Form data-testid="user-form" onSubmit={handleSubmit}>
               <Flex direction="row" flexwrap justify="space-between">
@@ -102,7 +102,7 @@ const UserForm: FC<UserFormProps> = props => {
                     dataTestId="cancel"
                     danger
                     type="button"
-                    onClick={() => Router.push("/")}
+                    onClick={() => Router.back()}
                   >
                     Cancel
                   </Button>

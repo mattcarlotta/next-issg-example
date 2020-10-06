@@ -1,19 +1,48 @@
 import { mount, ReactWrapper } from "enzyme";
+import { act } from "react-dom/test-utils";
+import Router from "next/router";
 import UserForm from "../index";
 
-const resetMessage = jest.fn();
-const resetForm = jest.fn();
-const cancelForm = jest.fn();
-const submitAction = jest.fn();
+jest.mock("next/router", () => ({
+  __esModule: true,
+  default: {
+    back: jest.fn(),
+    push: jest.fn(),
+  },
+}));
+
+const flushPromises = () => new Promise(setImmediate);
+
+const message = "Successfully created user!";
+const link = "/";
+const submitForm = jest
+  .fn()
+  .mockImplementationOnce(() => new Promise(res => res({ message, link })))
+  .mockImplementationOnce(
+    () => new Promise((_, rej) => rej(String("Invalid"))),
+  );
 
 const initialProps = {
   _id: "",
-  resetMessage,
-  serverError: "",
-  serverMessage: "",
-  resetForm,
-  cancelForm,
-  submitAction,
+  title: "Create user",
+  submitForm,
+};
+
+const data = {
+  _id: "1323454",
+  email: "thefifthelement@example.com",
+  firstName: "Bob",
+  lastName: "Smith",
+  userName: "bobbin4apples",
+  backgroundInfo:
+    "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.",
+  address: {
+    street: "123 Galena St.",
+    suite: "",
+    city: "Victoria Valley",
+    state: "CA",
+    zipCode: "55555",
+  },
 };
 
 describe("UserForm", () => {
@@ -23,10 +52,7 @@ describe("UserForm", () => {
   });
 
   afterEach(() => {
-    resetMessage.mockClear();
-    resetForm.mockClear();
-    cancelForm.mockClear();
-    submitAction.mockClear();
+    submitForm.mockClear();
   });
 
   it("renders without error ", () => {
@@ -43,15 +69,32 @@ describe("UserForm", () => {
     expect(inputNode()).toHaveProp("value", value);
   });
 
-  it("calls resetMessage when the form is unmounted", () => {
-    wrapper.unmount();
-    expect(resetMessage).toHaveBeenCalledTimes(1);
-  });
-
   it("when a user submits an empty form, the form displays errors", () => {
     wrapper.find("form").simulate("submit");
 
     expect(wrapper.find("[data-testid='errors']")).toHaveLength(9);
+  });
+
+  it("displays an edit form", () => {
+    wrapper = mount(<UserForm {...initialProps} {...data} title="Edit Form" />);
+
+    expect(wrapper.find("[data-testid='form-title']").first().text()).toEqual(
+      "Edit Form",
+    );
+
+    expect(wrapper.find("[data-testid='userName']").first()).toHaveProp(
+      "value",
+      data.userName,
+    );
+  });
+
+  it("cancels the form by pushing back to the previous url", async () => {
+    wrapper.find("[data-testid='cancel']").simulate("click");
+
+    await flushPromises();
+    wrapper.update();
+
+    expect(Router.back).toHaveBeenCalledTimes(1);
   });
 
   describe("with form data", () => {
@@ -77,45 +120,29 @@ describe("UserForm", () => {
       });
     });
 
-    it("when the form is submitted, it calls submitAction with form values and an id when there is no errors", () => {
-      const value = "email@123.com";
-      const id = "";
+    it("when the form is submitted, it calls navigates back to the a page link", async () => {
       wrapper.find("form").simulate("submit");
-      expect(submitAction).toHaveBeenCalledWith({
-        props: {
-          address: {
-            street: value,
-            suite: value,
-            city: value,
-            state: value,
-            zipCode: value,
-          },
-          userName: value,
-          email: value,
-          firstName: value,
-          lastName: value,
-          backgroundInfo: value,
-        },
-        id,
-      });
+
+      await flushPromises();
+      wrapper.update();
+
+      expect(Router.push).toHaveBeenCalledWith(link);
+      expect(wrapper.find("[data-testid='submit']")).toHaveProp(
+        "disabled",
+        true,
+      );
     });
 
-    it("calls resetForm when the serverMessage", () => {
-      wrapper.find("form").simulate("submit");
-      wrapper.setProps({ serverMessage: "message" });
-
-      expect(resetForm).toHaveBeenCalledTimes(1);
-    });
-
-    it("when the form is submitted but a server error is thrown, then the form will not be submitting", () => {
+    it("when the form is submitted a server is thrown and the form submit button is enabled", async () => {
       const submitButton = () => wrapper.find("[data-testid='submit']");
       wrapper.find("form").simulate("submit");
-
       expect(submitButton()).toHaveProp("disabled", true);
 
-      wrapper.setProps({ serverError: "server" });
-      wrapper.update();
-      expect(submitButton()).toHaveProp("disabled", false);
+      await act(async () => {
+        await flushPromises();
+        wrapper.update();
+        expect(submitButton()).toHaveProp("disabled", false);
+      });
     });
   });
 });
