@@ -20,7 +20,7 @@ const Header = ({
 );
 
 Header.defaultProps = {
-  description: "A fullstack MERN SSR boilerplate.",
+  description: "A fullstack MERN iSSG example.",
   type: "website",
 };
 

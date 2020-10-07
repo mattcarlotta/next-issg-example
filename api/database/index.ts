@@ -14,10 +14,10 @@ const options = {
 
 mongoose.Promise = bluebird;
 
-export const createConnectionToDatabase = () =>
+export const createConnectionToDatabase = (): mongoose.Connection =>
   mongoose.createConnection(`mongodb://localhost/${DATABASE}`, options);
 
-export const connectToDB = () =>
+export const connectToDB = (): Promise<typeof mongoose> =>
   mongoose.connect(`mongodb://localhost/${DATABASE}`, options);
 
 if (!inTesting) {

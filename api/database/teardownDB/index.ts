@@ -15,7 +15,7 @@ const { DATABASE, DROP, EXIT } = process.env;
  * @throws {error} - displays a:  FAIL  utils/teardownDB.js message to console with the error.
  */
 
-const teardownDB = () => {
+const teardownDB = (): Promise<any> => {
   return new Promise(async (resolve, reject) => {
     await connectToDB();
     const db = await createConnectionToDatabase();
