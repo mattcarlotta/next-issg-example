@@ -1,16 +1,9 @@
-context("Home Page", () => {
+context("Not Found Page", () => {
   beforeEach(() => {
     cy.visit("/notfound", { failOnStatusCode: false });
   });
 
-  it("initially displays a welcome message", () => {
-    cy.get("[data-testid=modal-message]").should(
-      "have.text",
-      "Welcome to the NextJS SSR Kit!",
-    );
-  });
-
-  it("initially displays a logo and with a  'See Example' link", () => {
+  it("initially displays not found page", () => {
     cy.get("[data-testid=not-found-page]").should("have.length", 1);
 
     cy.get("[data-testid=link]")

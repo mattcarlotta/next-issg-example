@@ -1,12 +1,10 @@
 import Head from "next/head";
 import { ToastContainer } from "react-toastify";
 import { CacheProvider } from "@emotion/core";
-import createCache from "@emotion/cache";
+import { cache } from "emotion";
 import GlobalStylesheet from "~styles/globalStylesheet";
 import "react-toastify/dist/ReactToastify.css";
 import { AppProps, FC } from "~types";
-
-const cache = createCache();
 
 const App: FC<AppProps> = ({ Component, pageProps }) => (
   <CacheProvider value={cache}>

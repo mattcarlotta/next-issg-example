@@ -1,5 +1,5 @@
 import "~env";
-import { createConnectionToDatabase } from "~database";
+import { connectToDB, createConnectionToDatabase } from "~database";
 import User from "~models/user";
 import { logErrorMessage, logInfoMessage } from "~logger";
 import seeds from "./seeds";
@@ -15,6 +15,7 @@ const { DATABASE, EXIT, SEED } = process.env;
  */
 const seedDB = () => {
   return new Promise(async (resolve, reject) => {
+    await connectToDB();
     const db = await createConnectionToDatabase();
     try {
       const databaseExists = User.findOne({

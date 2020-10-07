@@ -3,26 +3,34 @@ context("Home Page", () => {
     cy.visit("/");
   });
 
-  it("initially displays a welcome message", () => {
-    cy.get("[data-testid=modal-message]").should(
-      "have.text",
-      "Welcome to the NextJS SSR Kit!",
-    );
+  it("initially displays user cards", () => {
+    cy.get("[data-testid=home-page]").should("have.length", 1);
+    cy.get("[data-testid=card-container]").its("length").should("be.gt", 0);
   });
 
-  it("initially displays a logo and with a  'See Example' link", () => {
-    cy.get("[data-testid=home-page]").find("img").should("have.length", 1);
+  // it("seeds the database", () => {
+  //   cy.get("[data-testid=seed-database]").click();
 
-    cy.get("[data-testid=link]")
-      .should("have.length", 1)
-      .and("have.attr", "href", "/users");
+  //   cy.get("[data-testid=card-container]").should("have.length", 3);
+  // });
+
+  it("navigates to the create user page", () => {
+    cy.get("[data-testid=create-user]").click();
+
+    cy.url().should("contain", "/users/create");
   });
 
-  it("allows a user to navigate to the example page", () => {
-    cy.get("[data-testid=link]").click();
+  it("navigates to a user's profile", () => {
+    cy.get("[data-testid=link").first().click();
 
     cy.url().should("contain", "/users");
 
-    cy.get("[data-testid=users-page]").should("have.length", 1);
+    cy.get("[data-testid=card-container]").should("have.length", 1);
   });
+
+  // it("drops the database", () => {
+  //   cy.get("[data-testid=drop-database]").click();
+
+  //   cy.get("[data-testid=card-container]").should("have.length", 0);
+  // });
 });

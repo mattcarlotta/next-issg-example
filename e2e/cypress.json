@@ -1,12 +1,13 @@
 {
   "defaultCommandTimeout": 10000,
-  "baseUrl": "http://localhost:8080",
+  "baseUrl": "http://localhost:3000",
   "fixturesFolder": "./fixtures",
   "integrationFolder": "./integration",
   "pluginsFile": "./plugins/index.ts",
   "screenshotsFolder": "./screenshots",
   "supportFile": "./support/index.ts",
   "videosFolder": "./videos",
+  "chromeWebSecurity": false,
   "viewportHeight": 1200,
   "viewportWidth": 1800
 }

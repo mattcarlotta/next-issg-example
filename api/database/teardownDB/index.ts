@@ -1,5 +1,5 @@
 import "~env";
-import { createConnectionToDatabase } from "~database";
+import { connectToDB, createConnectionToDatabase } from "~database";
 import { logErrorMessage, logInfoMessage } from "~logger";
 
 const { DATABASE, DROP, EXIT } = process.env;
@@ -17,6 +17,7 @@ const { DATABASE, DROP, EXIT } = process.env;
 
 const teardownDB = () => {
   return new Promise(async (resolve, reject) => {
+    await connectToDB();
     const db = await createConnectionToDatabase();
     try {
       await db.dropDatabase();
@@ -38,4 +39,4 @@ const teardownDB = () => {
 
 if (DROP) teardownDB();
 
-module.exports = teardownDB;
+export default teardownDB;
