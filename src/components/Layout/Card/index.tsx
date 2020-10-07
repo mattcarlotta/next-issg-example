@@ -33,8 +33,10 @@ const CardComponent: FC<CardProps> = ({
   <div data-testid="card-container" className={className}>
     <Flex>
       <FlexStart>
-        <Avatar>{toInitials(`${firstName} ${lastName}`)}</Avatar>
-        <UserName>
+        <Avatar data-testid="avatar">
+          {toInitials(`${firstName} ${lastName}`)}
+        </Avatar>
+        <UserName data-testid="name">
           {firstName} {lastName}
         </UserName>
       </FlexStart>
@@ -42,32 +44,32 @@ const CardComponent: FC<CardProps> = ({
         <UserActions _id={_id} deleteUser={deleteUser} />
       </FlexEnd>
     </Flex>
-    <UserDetails>
+    <UserDetails data-testid="username">
       <strong>username</strong>:&nbsp;{userName}
     </UserDetails>
-    <UserDetails>
+    <UserDetails data-testid="email">
       <strong>email</strong>:&nbsp;{email}
     </UserDetails>
     <UserAddress>
       <li>
         <strong>address</strong>:&nbsp;
       </li>
-      <li>{street}</li>
+      <li data-testid="street">{street}</li>
       <Divider />
       {suite && (
         <>
-          <li>{suite}</li>
+          <li data-testid="suite">{suite}</li>
           <Divider />
         </>
       )}
-      <li>{city}</li>
+      <li data-testid="city">{city}</li>
       <Divider />
-      <li>{state}</li>
+      <li data-testid="state">{state}</li>
       <Divider />
-      <li>{zipCode}</li>
+      <li data-testid="zip-code">{zipCode}</li>
     </UserAddress>
     <UserBackground>
-      <p>{backgroundInfo}</p>
+      <p data-testid="background">{backgroundInfo}</p>
     </UserBackground>
   </div>
 );

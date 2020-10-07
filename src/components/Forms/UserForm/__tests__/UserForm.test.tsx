@@ -133,7 +133,7 @@ describe("UserForm", () => {
       );
     });
 
-    it("when the form is submitted a server is thrown and the form submit button is enabled", async () => {
+    it("when the form is submitted a server error is thrown and the form submit button is enabled", async () => {
       const submitButton = () => wrapper.find("[data-testid='submit']");
       wrapper.find("form").simulate("submit");
       expect(submitButton()).toHaveProp("disabled", true);
