@@ -59,7 +59,7 @@ describe("Card with UserActions", () => {
     expect(Router.push).toHaveBeenCalledWith(`/users/edit/${data._id}`);
   });
 
-  it("when the delete button is clicked, pushes to an edit page", () => {
+  it("when the delete button is clicked, calls deleteUser action", () => {
     wrapper.find("[data-testid='delete']").first().simulate("click");
 
     expect(deleteUser).toHaveBeenCalledWith(data._id);
