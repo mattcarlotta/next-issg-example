@@ -29,7 +29,7 @@ const UserListNavigation: FC<UserListNavigationProps> = ({
         Drop DB
       </Button>
       <Button
-        dataTestId="open-modal"
+        dataTestId="create-user"
         type="button"
         onClick={() => Router.push("/users/create")}
       >

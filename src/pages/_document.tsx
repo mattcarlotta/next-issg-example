@@ -31,7 +31,7 @@ class CustomDocument extends Document {
     <Html lang="en">
       <Head>
         <meta property="og:locale" content="en_US" />
-        <meta property="og:site_name" content="NextJS SSR Kit" />
+        <meta property="og:site_name" content="NextJS iSSG API Example" />
         <link rel="apple-touch-icon" sizes="192x192" href="/logo_192x192.png" />
         <meta name="theme-color" content="#000000" />
         <meta name="msapplication-TileColor" content="#000000" />
