@@ -1,4 +1,4 @@
-import Router, { useRouter } from "next/router";
+import Router from "next/router";
 import { useCallback } from "react";
 import toast from "~components/App/Toast";
 import Card from "~components/Layout/Card";
@@ -8,7 +8,6 @@ import FadeIn from "~components/Layout/FadeIn";
 import Flex from "~components/Layout/Flex";
 import Header from "~components/Navigation/Header";
 import HomeIcon from "~components/Layout/HomeIcon";
-import LoadingUsers from "~components/Layout/LoadingUsers";
 import Link from "~components/Navigation/Link";
 import app from "~utils/axiosConfig";
 import { parseData, parseMessage } from "~utils/parseResponse";
@@ -16,7 +15,6 @@ import invalidatePageCache from "~utils/invalidatePageCache";
 import { FC, GetStaticPaths, UserDetails } from "~types";
 
 const ViewUser: FC<{ user: UserDetails }> = ({ user }) => {
-  const router = useRouter();
   const deleteUser = useCallback(async (id: string) => {
     try {
       const res = await app.delete(`users/delete/${id}`);
@@ -32,9 +30,7 @@ const ViewUser: FC<{ user: UserDetails }> = ({ user }) => {
     }
   }, []);
 
-  return router.isFallback ? (
-    <LoadingUsers />
-  ) : (
+  return (
     <>
       <Header title={`${user.userName}'s profile`} url={`/users/${user._id}`} />
       <FadeIn timing="0.5s">
@@ -62,7 +58,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
     params: { id: user._id.toString() },
   }));
 
-  return { paths, fallback: true };
+  return { paths, fallback: "unstable_blocking" };
 };
 
 export const getStaticProps = async ({
