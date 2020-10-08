@@ -9,10 +9,10 @@
   "scripts": {
     "analyze": "rimraf .next/analyze && analyze=true npm run build",
     "build": "npm run build:api && concurrently --success first --kill-others \"npm run start:api\" \"npm run build:app\"",
-    "build:api": "rimraf build && npm run seed:prod && tsc -p tsconfig.api.json",
+    "build:api": "rimraf build && tsc -p tsconfig.api.json",
     "build:app": "inStaging=false next build",
     "build:stage": "NODE_ENV=production inStaging=true next build",
-    "build:staging": "npm run build:api && concurrently --success first --kill-others \"npm run start:api\" \"npm run build:stage\"",
+    "build:staging": "npm run seed:prod && npm run build:api && concurrently --success first --kill-others \"npm run start:api\" \"npm run build:stage\"",
     "dev": "concurrently  \"npm run dev:api\" \"npm run dev:app\"",
     "dev:app": "NODE_OPTIONS='--max_old_space_size=4096 --inspect' NODE_ENV=development next dev",
     "dev:api": "NODE_ENV=development nodemon",
